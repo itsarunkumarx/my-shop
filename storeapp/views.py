@@ -13,20 +13,7 @@ from .forms import ReviewForm
 from django.contrib.admin.views.decorators import staff_member_required
 from django.contrib.auth.models import User
 
-import traceback
-from django.http import HttpResponse
 
-def debug_view(request):
-    import os
-    env_keys = [k for k in os.environ.keys() if 'DATA' in k or 'POSTGRES' in k or 'STORAGE' in k or 'DB' in k or 'URL' in k]
-    db_config = DATABASES.get('default', {})
-    safe_config = {k: (v if k != 'PASSWORD' else '***') for k, v in db_config.items()}
-    try:
-        cat_count = Category.objects.count()
-        prod_count = Product.objects.count()
-        return HttpResponse(f"ALL OK! Env keys: {env_keys}<br>DB config: {safe_config}<br>Categories: {cat_count}, Products: {prod_count}")
-    except Exception:
-        return HttpResponse(f"<h1>Error Traceback:</h1><pre>{traceback.format_exc()}</pre><br><b>Env keys:</b> {env_keys}<br><b>DB Config:</b> {safe_config}", status=200)
 
 def home(request):
     categories = Category.objects.all()
