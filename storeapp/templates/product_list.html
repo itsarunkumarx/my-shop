@@ -166,13 +166,17 @@ Search
 
 <div class="card h-100">
 
+{% if product.image %}
 <img
-
 src="{{ product.image.url }}"
-
 class="card-img-top"
-
 height="220">
+{% else %}
+<img
+src="{% static 'images/logo.jpg' %}"
+class="card-img-top"
+height="220">
+{% endif %}
 
 <div class="card-body">
 
