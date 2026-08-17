@@ -123,10 +123,18 @@ db_url = (
 )
 
 if db_url:
+    # Strip channel_binding if present (avoids SCRAM channel binding errors on pooled connections)
+    db_url_clean = (
+        db_url
+        .replace("&channel_binding=require", "")
+        .replace("?channel_binding=require&", "?")
+        .replace("?channel_binding=require", "")
+    )
     DATABASES = {
         'default': dj_database_url.config(
-            default=db_url,
-            conn_max_age=600
+            default=db_url_clean,
+            conn_max_age=0,
+            ssl_require=True
         )
     }
 elif os.environ.get('DB_ENGINE') == 'mysql':
