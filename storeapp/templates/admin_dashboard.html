@@ -1,0 +1,411 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="container-fluid mt-4">
+
+    <h2 class="mb-4">
+        Admin Dashboard
+    </h2>
+
+
+    <!-- Dashboard Cards -->
+
+    <div class="row">
+
+
+        <!-- Products -->
+
+        <div class="col-md-3 mb-4">
+
+            <div class="card text-center shadow">
+
+                <div class="card-body">
+
+                    <h5>
+                        📦 Total Products
+                    </h5>
+
+                    <h2>
+                        {{ total_products }}
+                    </h2>
+
+                    <a
+                        href="{% url 'product_list' %}"
+                        class="btn btn-primary"
+                    >
+                        Manage Products
+                    </a>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- Categories -->
+
+        <div class="col-md-3 mb-4">
+
+            <div class="card text-center shadow">
+
+                <div class="card-body">
+
+                    <h5>
+                        📂 Categories
+                    </h5>
+
+                    <h2>
+                        {{ total_categories }}
+                    </h2>
+
+                    <a
+                        href="/admin/storeapp/category/"
+                        class="btn btn-success"
+                    >
+                        Manage Categories
+                    </a>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- Users -->
+
+        <div class="col-md-3 mb-4">
+
+            <div class="card text-center shadow">
+
+                <div class="card-body">
+
+                    <h5>
+                        👤 Users
+                    </h5>
+
+                    <h2>
+                        {{ total_users }}
+                    </h2>
+
+                    <a
+                        href="/admin/auth/user/"
+                        class="btn btn-info"
+                    >
+                        Manage Users
+                    </a>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- Orders -->
+
+        <div class="col-md-3 mb-4">
+
+            <div class="card text-center shadow">
+
+                <div class="card-body">
+
+                    <h5>
+                        🛒 Total Orders
+                    </h5>
+
+                    <h2>
+                        {{ total_orders }}
+                    </h2>
+
+                    <a
+                        href="/admin/storeapp/order/"
+                        class="btn btn-warning"
+                    >
+                        Manage Orders
+                    </a>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- Second Row -->
+
+    <div class="row">
+
+
+        <!-- Pending -->
+
+        <div class="col-md-3 mb-4">
+
+            <div class="card text-center shadow">
+
+                <div class="card-body">
+
+                    <h5>
+                        ⏳ Pending Orders
+                    </h5>
+
+                    <h2>
+                        {{ pending_orders }}
+                    </h2>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- Delivered -->
+
+        <div class="col-md-3 mb-4">
+
+            <div class="card text-center shadow">
+
+                <div class="card-body">
+
+                    <h5>
+                        🚚 Delivered Orders
+                    </h5>
+
+                    <h2>
+                        {{ delivered_orders }}
+                    </h2>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- Sales -->
+
+        <div class="col-md-3 mb-4">
+
+            <div class="card text-center shadow">
+
+                <div class="card-body">
+
+                    <h5>
+                        💰 Total Sales
+                    </h5>
+
+                    <h2>
+                        ₹ {{ total_sales }}
+                    </h2>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- Low Stock -->
+
+        <div class="col-md-3 mb-4">
+
+            <div class="card text-center shadow">
+
+                <div class="card-body">
+
+                    <h5>
+                        ⚠️ Low Stock
+                    </h5>
+
+                    <h2>
+                        {{ low_stock_count }}
+                    </h2>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- Recent Orders -->
+
+    <div class="card shadow mb-4">
+
+        <div class="card-header">
+
+            <h4>
+                Recent Orders
+            </h4>
+
+        </div>
+
+        <div class="card-body">
+
+            <table class="table table-bordered">
+
+                <thead>
+
+                    <tr>
+
+                        <th>ID</th>
+
+                        <th>Customer</th>
+
+                        <th>Total</th>
+
+                        <th>Status</th>
+
+                        <th>Date</th>
+
+                    </tr>
+
+                </thead>
+
+                <tbody>
+
+                    {% for order in recent_orders %}
+
+                    <tr>
+
+                        <td>
+                            {{ order.id }}
+                        </td>
+
+                        <td>
+                            {{ order.user.username }}
+                        </td>
+
+                        <td>
+                            ₹ {{ order.total }}
+                        </td>
+
+                        <td>
+                            {{ order.status }}
+                        </td>
+
+                        <td>
+                            {{ order.created_at }}
+                        </td>
+
+                    </tr>
+
+                    {% empty %}
+
+                    <tr>
+
+                        <td colspan="5"
+                            class="text-center">
+
+                            No orders found.
+
+                        </td>
+
+                    </tr>
+
+                    {% endfor %}
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </div>
+
+
+    <!-- Low Stock Products -->
+
+    <div class="card shadow mb-4">
+
+        <div class="card-header">
+
+            <h4>
+                Low Stock Products
+            </h4>
+
+        </div>
+
+        <div class="card-body">
+
+            <table class="table table-bordered">
+
+                <thead>
+
+                    <tr>
+
+                        <th>Product</th>
+
+                        <th>Category</th>
+
+                        <th>Price</th>
+
+                        <th>Stock</th>
+
+                    </tr>
+
+                </thead>
+
+                <tbody>
+
+                    {% for product in low_stock_products %}
+
+                    <tr>
+
+                        <td>
+                            {{ product.name }}
+                        </td>
+
+                        <td>
+                            {{ product.category }}
+                        </td>
+
+                        <td>
+                            ₹ {{ product.price }}
+                        </td>
+
+                        <td>
+
+                            <span class="badge bg-danger">
+
+                                {{ product.stock }}
+
+                            </span>
+
+                        </td>
+
+                    </tr>
+
+                    {% empty %}
+
+                    <tr>
+
+                        <td colspan="4"
+                            class="text-center">
+
+                            No low-stock products.
+
+                        </td>
+
+                    </tr>
+
+                    {% endfor %}
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

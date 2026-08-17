@@ -1,0 +1,279 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="container mt-5">
+
+<h2 class="mb-4">
+
+Products
+
+</h2>
+
+<form method="GET">
+
+<div class="row">
+
+<div class="col-md-3">
+
+<input
+
+type="text"
+
+name="search"
+
+class="form-control"
+
+placeholder="Search Product"
+
+value="{{ request.GET.search }}">
+
+</div>
+
+<div class="col-md-2">
+
+<select
+
+name="category"
+
+class="form-select">
+
+<option value="">
+
+All Categories
+
+</option>
+
+{% for category in categories %}
+
+<option
+
+value="{{ category.id }}"
+
+{% if request.GET.category == category.id|stringformat:"s" %}
+
+selected
+
+{% endif %}>
+
+{{ category.name }}
+
+</option>
+
+{% endfor %}
+
+</select>
+
+</div>
+
+<div class="col-md-2">
+
+<input
+
+type="number"
+
+name="min_price"
+
+placeholder="Min Price"
+
+class="form-control"
+
+value="{{ request.GET.min_price }}">
+
+</div>
+
+<div class="col-md-2">
+
+<input
+
+type="number"
+
+name="max_price"
+
+placeholder="Max Price"
+
+class="form-control"
+
+value="{{ request.GET.max_price }}">
+
+</div>
+
+<div class="col-md-2">
+
+<select
+
+name="sort"
+
+class="form-select">
+
+<option value="">
+
+Sort
+
+</option>
+
+<option value="low">
+
+Price Low-High
+
+</option>
+
+<option value="high">
+
+Price High-Low
+
+</option>
+
+<option value="name">
+
+Name A-Z
+
+</option>
+
+<option value="latest">
+
+Latest
+
+</option>
+
+</select>
+
+</div>
+
+<div class="col-md-1">
+
+<button
+
+class="btn btn-primary">
+
+Search
+
+</button>
+
+</div>
+
+</div>
+
+</form>
+
+<hr>
+
+<div class="row">
+
+{% for product in products %}
+
+<div class="col-md-4 mb-4">
+
+<div class="card h-100">
+
+<img
+
+src="{{ product.image.url }}"
+
+class="card-img-top"
+
+height="220">
+
+<div class="card-body">
+
+<h5>
+
+{{ product.name }}
+
+</h5>
+
+<p>
+
+₹ {{ product.price }}
+
+</p>
+
+<p>
+
+{{ product.category }}
+
+</p>
+
+<a
+    href="{% url 'product_detail' product.id %}"
+    class="btn btn-primary">
+    View Details
+</a>
+
+</div>
+
+</div>
+
+</div>
+
+{% empty %}
+
+<div class="alert alert-warning">
+
+No products found.
+
+</div>
+
+{% endfor %}
+
+</div>
+
+<!-- Pagination -->
+
+<nav>
+
+<ul class="pagination justify-content-center">
+
+{% if products.has_previous %}
+
+<li class="page-item">
+
+<a
+
+class="page-link"
+
+href="?page={{ products.previous_page_number }}">
+
+Previous
+
+</a>
+
+</li>
+
+{% endif %}
+
+<li class="page-item active">
+
+<a class="page-link">
+
+{{ products.number }}
+
+</a>
+
+</li>
+
+{% if products.has_next %}
+
+<li class="page-item">
+
+<a
+
+class="page-link"
+
+href="?page={{ products.next_page_number }}">
+
+Next
+
+</a>
+
+</li>
+
+{% endif %}
+
+</ul>
+
+</nav>
+
+</div>
+
+{% endblock %}

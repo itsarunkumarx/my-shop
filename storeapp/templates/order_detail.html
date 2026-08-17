@@ -1,0 +1,75 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="container mt-5">
+
+<h2>
+
+Order #{{ order.id }}
+
+</h2>
+
+<hr>
+
+<table class="table table-bordered">
+
+<tr>
+
+<th>Product</th>
+
+<th>Price</th>
+
+<th>Quantity</th>
+
+<th>Total</th>
+
+</tr>
+
+{% for item in items %}
+
+<tr>
+
+<td>
+
+{{ item.product.name }}
+
+</td>
+
+<td>
+
+₹ {{ item.price }}
+
+</td>
+
+<td>
+
+{{ item.quantity }}
+
+</td>
+
+<td>
+
+₹ {{ item.price|floatformat:2 }}
+
+× {{ item.quantity }}
+
+</td>
+
+</tr>
+
+{% endfor %}
+
+</table>
+
+<h3>
+
+Grand Total
+
+₹ {{ order.total_amount }}
+
+</h3>
+
+</div>
+
+{% endblock %}

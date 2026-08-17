@@ -1,0 +1,243 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="container mt-5">
+
+<div class="row">
+
+<div class="col-md-5">
+
+<img
+
+src="{{ product.image.url }}"
+
+class="img-fluid">
+
+</div>
+
+<div class="col-md-7">
+
+<h2>
+
+{{ product.name }}
+
+</h2>
+
+<h3>
+
+₹ {{ product.price }}
+
+</h3>
+
+<p>
+
+{{ product.description }}
+
+</p>
+
+<h5>
+
+Specifications
+
+</h5>
+
+<p>
+
+{{ product.specifications }}
+
+</p>
+
+<h5>
+
+Average Rating
+
+</h5>
+
+<p>
+
+⭐ {{ average.rating__avg|default:"0"|floatformat:1 }}/5
+
+</p>
+
+<a
+
+href="{% url 'add_to_cart' product.id %}"
+
+class="btn btn-success">
+
+Add to Cart
+
+</a>
+
+<a
+
+href="{% url 'add_review' product.id %}"
+
+class="btn btn-warning">
+
+Add Review
+
+</a>
+
+</div>
+
+</div>
+
+<hr>
+
+<h3>
+
+Customer Reviews
+
+</h3>
+
+{% for review in reviews %}
+
+<div class="card mb-3">
+
+<div class="card-body">
+
+<strong>
+
+{{ review.user.username }}
+
+</strong>
+
+<br>
+
+Rating:
+
+⭐ {{ review.rating }}/5
+
+<p>
+
+{{ review.comment }}
+
+</p>
+
+</div>
+
+</div>
+
+{% empty %}
+
+<p>
+
+No reviews yet.
+
+</p>
+
+{% endfor %}
+
+<hr>
+
+<h3>
+
+Related Products
+
+</h3>
+
+<div class="row">
+
+{% for item in related_products %}
+
+<div class="col-md-3">
+
+<div class="card">
+
+<img
+
+src="{{ item.image.url }}"
+
+class="card-img-top"
+
+height="150">
+
+<div class="card-body">
+
+<h6>
+
+{{ item.name }}
+
+</h6>
+
+<p>
+
+₹ {{ item.price }}
+
+</p>
+
+<a
+
+href="{% url 'product_detail' item.id %}"
+
+class="btn btn-primary btn-sm">
+
+View
+
+</a>
+
+</div>
+
+</div>
+
+</div>
+
+{% endfor %}
+
+</div>
+
+<hr>
+
+<h3>
+
+Recently Added
+
+</h3>
+
+<div class="row">
+
+{% for item in recent_products %}
+
+<div class="col-md-3">
+
+<div class="card">
+
+<img
+
+src="{{ item.image.url }}"
+
+height="150">
+
+<div class="card-body">
+
+<h6>
+
+{{ item.name }}
+
+</h6>
+
+<a
+
+href="{% url 'product_detail' item.id %}"
+
+class="btn btn-info btn-sm">
+
+View
+
+</a>
+
+</div>
+
+</div>
+
+</div>
+
+{% endfor %}
+
+</div>
+
+</div>
+
+{% endblock %}

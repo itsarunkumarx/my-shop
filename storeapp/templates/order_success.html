@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="container mt-5 text-center">
+
+<h1 class="text-success">
+
+Order Placed Successfully
+
+</h1>
+
+<hr>
+
+<h3>
+
+Order ID :
+#{{ order.id }}
+
+</h3>
+
+<h4>
+
+Total :
+₹ {{ order.total_amount }}
+
+</h4>
+
+<a
+href="{% url 'my_orders' %}"
+
+class="btn btn-primary">
+
+My Orders
+
+</a>
+
+</div>
+
+{% endblock %}

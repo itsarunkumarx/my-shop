@@ -1,0 +1,55 @@
+/* Hero Section */
+
+.hero{
+    height:90vh;
+
+    background-image:url("../images/banner.jpg");
+
+    background-repeat:no-repeat;
+
+    background-size:cover;
+
+    background-position:center;
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:center;
+
+    text-align:center;
+}
+
+.hero-content{
+
+    background:rgba(0,0,0,0.5);
+
+    padding:40px;
+
+    border-radius:10px;
+
+    color:white;
+}
+
+.hero-content h1{
+
+    font-size:60px;
+
+    font-weight:bold;
+}
+
+.hero-content p{
+
+    font-size:22px;
+
+    margin:20px 0;
+}
+
+.card{
+
+    transition:.3s;
+}
+.card:hover{
+
+    transform:translateY(-8px);
+}
