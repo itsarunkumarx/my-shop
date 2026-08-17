@@ -13,6 +13,21 @@ from .forms import ReviewForm
 from django.contrib.admin.views.decorators import staff_member_required
 from django.contrib.auth.models import User
 
+import traceback
+from django.http import HttpResponse
+
+def debug_view(request):
+    try:
+        cat_count = Category.objects.count()
+        prod_count = Product.objects.count()
+        prods = list(Product.objects.all()[:2])
+        prod_info = [(p.name, str(p.image), getattr(p.image, 'url', None)) for p in prods]
+        # Also test rendering home.html
+        res = home(request)
+        return HttpResponse(f"ALL OK! Categories: {cat_count}, Products: {prod_count}, Sample: {prod_info}, Home len: {len(res.content)}")
+    except Exception:
+        return HttpResponse(f"<h1>Error Traceback:</h1><pre>{traceback.format_exc()}</pre>", status=200)
+
 def home(request):
     categories = Category.objects.all()
     products = Product.objects.all()
