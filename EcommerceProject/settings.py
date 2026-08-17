@@ -119,23 +119,36 @@ db_url = (
     os.environ.get('DATABASE_URL') or 
     os.environ.get('POSTGRES_URL') or 
     os.environ.get('POSTGRES_PRISMA_URL') or 
-    os.environ.get('STORAGE_URL')
+    os.environ.get('POSTGRES_URL_NON_POOLING') or
+    os.environ.get('STORAGE_URL') or
+    os.environ.get('STORAGE_POSTGRES_URL')
 )
 
 if db_url:
-    # Strip channel_binding if present (avoids SCRAM channel binding errors on pooled connections)
     db_url_clean = (
         db_url
         .replace("&channel_binding=require", "")
         .replace("?channel_binding=require&", "?")
         .replace("?channel_binding=require", "")
     )
+    parsed = dj_database_url.parse(
+        db_url_clean,
+        conn_max_age=0,
+        ssl_require=True
+    )
+    DATABASES = {'default': parsed}
+elif os.environ.get('POSTGRES_HOST') or os.environ.get('PGHOST'):
     DATABASES = {
-        'default': dj_database_url.config(
-            default=db_url_clean,
-            conn_max_age=0,
-            ssl_require=True
-        )
+        'default': {
+            'ENGINE': 'django.db.backends.postgresql',
+            'NAME': os.environ.get('POSTGRES_DATABASE') or os.environ.get('PGDATABASE', 'neondb'),
+            'USER': os.environ.get('POSTGRES_USER') or os.environ.get('PGUSER', 'neondb_owner'),
+            'PASSWORD': os.environ.get('POSTGRES_PASSWORD') or os.environ.get('PGPASSWORD', ''),
+            'HOST': os.environ.get('POSTGRES_HOST') or os.environ.get('PGHOST', ''),
+            'PORT': os.environ.get('POSTGRES_PORT') or os.environ.get('PGPORT', '5432'),
+            'OPTIONS': {'sslmode': 'require'},
+            'CONN_MAX_AGE': 0,
+        }
     }
 elif os.environ.get('DB_ENGINE') == 'mysql':
     DATABASES = {
