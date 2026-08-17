@@ -1,0 +1,20 @@
+# Virtual Environment
+env/
+venv/
+ENV/
+.env
+
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Static collected files (WhiteNoise / Vercel rebuilds on deploy)
+staticfiles/
+
+# SQLite database (contains local data)
+# db.sqlite3
+
+# OS generated files
+.DS_Store
+Thumbs.db

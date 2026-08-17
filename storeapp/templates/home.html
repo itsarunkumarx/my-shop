@@ -9,7 +9,7 @@
         <h1>Welcome to MyShop</h1>
         <p class="lead">Buy the Best Products at Affordable Prices.</p>
 
-        <a href="products" class="btn btn-primary">
+        <a href="{% url 'product_list' %}" class="btn btn-primary">
             Shop Now
         </a>
     </div>
@@ -70,7 +70,7 @@
                     </a>
 
                     <!-- Add to Cart -->
-                    <a href="{% url 'product_list' %}" class="btn btn-success mt-2">
+                    <a href="{% url 'add_to_cart' product.id %}" class="btn btn-success mt-2">
                         Add To Cart
                     </a>
 
